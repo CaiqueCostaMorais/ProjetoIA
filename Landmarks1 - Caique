@@ -33,19 +33,32 @@ landmarks = GetPoints('../Landmarks/shape_predictor_68_face_landmarks.dat', '../
  
 #Classe para cálculo da distancia entre os landmarks da face
 class FacePoints:
-   def __init__(self, landmarks_list):
+    def __init__(self, landmarks_list):
         self.mouth = landmarks_list
         self.nose = landmarks_list
         self.eyes = landmarks_list
         self.face = landmarks_list
         self.eyebrows = landmarks_list
-   
-#Função para calcular a distancia entre os landmarks da boca
+        
+#Função para calcular a distancia entre os landmarks da boca       
     def mouthLength(self):
         mouth_pts_lgth = []
-        mouth_pts_lgth.append(self.mouth[63][0] - self.nose[52][0]) #var x dos pontos 64 e 53
-        mouth_pts_lgth.append(self.nose[63][1] - self.mouth[52][1]) #var y dos pontos 64 e 53
-        return mouth_pts_lgth
+        mouth_pts_lgth.append([self.mouth[63][0] - self.mouth[52][0]]) #var x dos pontos 64 e 53
+        mouth_pts_lgth[0].append(self.mouth[63][1] - self.mouth[52][1]) #var y dos pontos 64 e 53
+        
+        mouth_pts_lgth.append([self.mouth[61][0] - self.mouth[50][0]]) #var x dos pontos 62 e 51
+        mouth_pts_lgth[1].append(self.mouth[61][1] - self.mouth[50][1]) #var y dos pontos 62 e 51
+        
+        mouth_pts_lgth.append([self.mouth[65][0] - self.mouth[56][0]]) #var x dos pontos 66 e 57
+        mouth_pts_lgth[2].append(self.mouth[65][1] - self.mouth[56][1]) #var y dos pontos 66 e 57
+        
+        mouth_pts_lgth.append([self.mouth[67][0] - self.mouth[58][0]]) #var x dos pontos 68 e 59
+        mouth_pts_lgth[3].append(self.mouth[67][1] - self.mouth[58][1]) #var y dos pontos 68 e 59
+        
+        mouth_pts_lgth.append([self.mouth[54][0] - self.mouth[48][0]]) #var x dos pontos 55 e 59
+        mouth_pts_lgth[4].append(self.mouth[54][1] - self.mouth[48][1]) #var y dos pontos 55 e 49
          
+        return mouth_pts_lgth
+
 a = FacePoints(landmarks)
 a.mouthLength()
