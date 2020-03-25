@@ -55,7 +55,7 @@ class FacePoints:
         mouth_pts_lgth.append([self.mouth[67][0] - self.mouth[58][0]]) #var x dos pontos 68 e 59
         mouth_pts_lgth[3].append(self.mouth[67][1] - self.mouth[58][1]) #var y dos pontos 68 e 59
         
-        mouth_pts_lgth.append([self.mouth[54][0] - self.mouth[48][0]]) #var x dos pontos 55 e 59
+        mouth_pts_lgth.append([self.mouth[54][0] - self.mouth[48][0]]) #var x dos pontos 55 e 49
         mouth_pts_lgth[4].append(self.mouth[54][1] - self.mouth[48][1]) #var y dos pontos 55 e 49
          
         return mouth_pts_lgth
