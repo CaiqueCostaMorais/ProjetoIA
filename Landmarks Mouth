@@ -1,0 +1,109 @@
+import cv2
+import numpy as np
+import dlib
+import pandas
+import math 
+from IPython.display import Image
+
+def GetPoints(path_land_pred, path_png, option):
+    img = cv2.imread(path_png)
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    mask = np.zeros_like(img_gray)
+    detector = dlib.get_frontal_face_detector()
+    predictor = dlib.shape_predictor(path_land_pred)
+    faces = detector(img_gray)
+    for face in faces:
+        landmarks = predictor(img_gray, face)
+        landmarks_points = []
+        val_x = []
+        val_y = []
+        for n in range(0, 68):
+            x = landmarks.part(n).x
+            y = landmarks.part(n).y
+            landmarks_points.append((x, y))
+            cv2.circle(img, (x, y), 3, (0, 0, 255), -1)
+            points = np.array(landmarks_points, np.int32)
+    if option == '1':
+        cv2.imshow("Image 1", img)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+    elif option == '2':
+        img_new = cv2.imread(path_png)
+        cv2.imshow("Image 2", img_new)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+    else:
+        return landmarks_points
+   
+ 
+
+class FacePoints:                               #Classe with variables and functions that measures all landmarks points
+    def __init__(self, landmarks_list):         #Constructor of FacePoints's class
+        self.mouth = landmarks_list
+        self.nose = landmarks_list
+        self.eyes = landmarks_list
+        self.face = landmarks_list
+        self.eyebrows = landmarks_list
+
+#Function that measures the distance between landmarks points
+    def mouthLength(self):
+        mouth_pts_lgth = []
+            
+        #1) distance between point 62 and 51
+        mouth_pts_lgth.append(math.sqrt((self.mouth[61][0] - self.mouth[50][0])**2 + (self.mouth[61][1] - self.mouth[50][1])**2))
+        
+        #2) distance between point 63 and 52
+        mouth_pts_lgth.append(math.sqrt((self.mouth[62][0] - self.mouth[51][0])**2 + (self.mouth[62][1] - self.mouth[51][1])**2))
+
+        #3) distance between point 64 and 53
+        mouth_pts_lgth.append(math.sqrt((self.mouth[63][0] - self.mouth[52][0])**2 + (self.mouth[63][1] - self.mouth[52][1])**2))
+
+        #4) distance between point 54 and 50
+        mouth_pts_lgth.append(math.sqrt((self.mouth[53][0] - self.mouth[49][0])**2 + (self.mouth[53][1] - self.mouth[49][1])**2))
+        
+        #5) distance between point 55 and 49
+        mouth_pts_lgth.append(math.sqrt((self.mouth[54][0] - self.mouth[48][0])**2 + (self.mouth[54][1] - self.mouth[48][1])**2))
+        
+        #6) distance between point 66 and 57
+        mouth_pts_lgth.append(math.sqrt((self.mouth[65][0] - self.mouth[56][0])**2 + (self.mouth[65][1] - self.mouth[56][1])**2))
+
+        #7) distance between point 67 and 58
+        mouth_pts_lgth.append(math.sqrt((self.mouth[66][0] - self.mouth[57][0])**2 + (self.mouth[66][1] - self.mouth[57][1])**2))
+        
+        #8) distance between point 68 and 59
+        mouth_pts_lgth.append(math.sqrt((self.mouth[67][0] - self.mouth[58][0])**2 + (self.mouth[67][1] - self.mouth[58][1])**2))
+
+        #9) distance between point 60 and 56
+        mouth_pts_lgth.append(math.sqrt((self.mouth[59][0] - self.mouth[55][0])**2 + (self.mouth[59][1] - self.mouth[55][1])**2))
+        
+        #10) distance between point 51 and 49
+        mouth_pts_lgth.append(math.sqrt((self.mouth[50][0] - self.mouth[48][0])**2 + (self.mouth[50][1] - self.mouth[48][1])**2))
+        
+        #11) distance between point 55 and 53
+        mouth_pts_lgth.append(math.sqrt((self.mouth[54][0] - self.mouth[52][0])**2 + (self.mouth[54][1] - self.mouth[52][1])**2))
+        
+        #12) distance between point 59 and 49
+        mouth_pts_lgth.append(math.sqrt((self.mouth[58][0] - self.mouth[48][0])**2 + (self.mouth[58][1] - self.mouth[48][1])**2))
+        
+        #13) distance between point 57 and 55
+        mouth_pts_lgth.append(math.sqrt((self.mouth[56][0] - self.mouth[54][0])**2 + (self.mouth[56][1] - self.mouth[54][1])**2))
+        
+        #14) distance between point 53 and 51
+        mouth_pts_lgth.append(math.sqrt((self.mouth[52][0] - self.mouth[50][0])**2 + (self.mouth[52][1] - self.mouth[50][1])**2))
+        
+        #15) distance between point 59 and 57
+        mouth_pts_lgth.append(math.sqrt((self.mouth[58][0] - self.mouth[56][0])**2 + (self.mouth[58][1] - self.mouth[56][1])**2))
+        
+        return mouth_pts_lgth
+
+def main():
+    distancia = []
+    dist_landmarks = []
+    for i in range(1, len('..\Base')+1):
+        pontos = GetPoints('../Landmarks/shape_predictor_68_face_landmarks.dat', '../Imagens/Base/teste' + str(i) + '.jpg', '0')
+        distancia = FacePoints(pontos)
+        dist_landmarks.append(distancia.mouthLength())
+    return print(dist_landmarks)
+    
+if __name__== "__main__":
+    main()
